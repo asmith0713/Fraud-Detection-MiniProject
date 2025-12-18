@@ -66,5 +66,17 @@ services:
     volumes:
       - transactions_data:/app/data
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_BASE=http://localhost:5000
+    depends_on:
+      - flask
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+
 volumes:
   transactions_data:

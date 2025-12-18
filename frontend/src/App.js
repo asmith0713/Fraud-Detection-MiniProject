@@ -11,6 +11,8 @@ import "./App.css";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://127.0.0.1:5000";
+
 const StatCard = ({ label, value, tone, badge }) => {
   const symbol = badge || (label ? label.charAt(0).toUpperCase() : "?");
   return (
@@ -98,7 +100,7 @@ function App() {
   const fetchTransactions = async () => {
     try {
       setRefreshing(true);
-      const res = await axios.get("http://127.0.0.1:5000/transactions?n=20");
+      const res = await axios.get(`${API_BASE}/transactions?n=20`);
       const payload = res.data || {};
       const items = Array.isArray(payload) ? payload : payload.items || [];
       const meta = Array.isArray(payload) ? null : payload.meta || {};
@@ -158,7 +160,7 @@ function App() {
       }
 
       const res = await axios.post(
-        "http://127.0.0.1:5000/validate-transaction",
+        `${API_BASE}/validate-transaction`,
         payload
       );
       setValidationResult(res.data);
